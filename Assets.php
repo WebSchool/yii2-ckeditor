@@ -10,11 +10,11 @@ use yii\web\AssetBundle;
 
 class Assets extends AssetBundle
 {
-	public $sourcePath = '@webschool/ckeditor/editor';
+	public $sourcePath = '@webschool/ckeditor';
 
     public $js = [
-        'ckeditor.js',
-		'js.js',
+        'editor/ckeditor.js',
+		'editor.js',
     ];
 
 	public $depends = [
