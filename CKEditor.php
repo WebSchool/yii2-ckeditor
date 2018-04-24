@@ -80,6 +80,10 @@ class CKEditor extends InputWidget
             $this->getView()->registerJs($JavaScript, View::POS_END);
             $this->getView()->registerCss('#'.$this->containerOptions['id'].', #'.$this->containerOptions['id'].' .cke_textarea_inline{height: '.$this->editorOptions['height'].'px;}');
         } else {
+            // для предотвращения ошибки в console.log
+            // to prevent an error in the console.log
+            $this->editorOptions['cloudServices_tokenUrl'] = 'https://raw.githubusercontent.com/WebSchool/yii2-ckeditor/master/token';
+
             $JavaScript = "CKEDITOR.replace(";
             $JavaScript .= Json::encode($this->options['id']);
             $JavaScript .= empty($this->editorOptions) ? '' : ', '.Json::encode($this->editorOptions);
