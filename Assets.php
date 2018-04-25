@@ -8,6 +8,12 @@ namespace webschool\ckeditor;
 
 use yii\web\AssetBundle;
 
+/**
+ * Регистрация JavaScript
+ *
+ * Class Assets
+ * @package webschool\ckeditor
+ */
 class Assets extends AssetBundle
 {
 	public $sourcePath = '@webschool/ckeditor';
