@@ -132,7 +132,7 @@ class CKEditor extends InputWidget
         $options['removeButtons'] = 'Smiley,Iframe';
 
         if ($this->_inline) {
-            $options['extraPlugins'] = 'sourcedialog';
+            $options['extraPlugins'] = 'SourceDialog';
             $options['removePlugins'] = 'sourcearea';
         }
 
@@ -159,7 +159,7 @@ class CKEditor extends InputWidget
         ];
 
         if ($this->_inline) {
-            $options['extraPlugins'] = 'sourcedialog';
+            $options['extraPlugins'] = 'SourceDialog';
             $options['removePlugins'] = 'sourcearea';
         }
 
