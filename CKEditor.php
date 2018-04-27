@@ -65,6 +65,10 @@ class CKEditor extends InputWidget
             'webschool.ckEditor.registerOnChange('.Json::encode($this->options['id']).');'
         ];
 
+        $this->editorOptions['filebrowserUploadUrl'] = '/uploads';
+        $this->editorOptions['filebrowserBrowseUrl'] = 'ckeditor/plugins/ckfinder/ckfinder.html';
+
+
         if (isset($this->editorOptions['filebrowserUploadUrl']))
             $js[] = "webschool.ckEditor.registerCsrf();";
 
