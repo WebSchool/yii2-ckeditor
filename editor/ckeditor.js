@@ -208,7 +208,7 @@ this.setState(CKEDITOR.TRISTATE_ON):this.state==CKEDITOR.TRISTATE_ON&&this.setSt
 CKEDITOR.config={
 
 
-    customConfig:"config.js?v=2",
+    customConfig:"config.js?v=3",
 
 
 

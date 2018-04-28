@@ -17,16 +17,10 @@ class CKEditor extends InputWidget
 {
     public $editorOptions = [];
     public $containerOptions = [];
-    private $_inline = false;
 
     public function init()
     {
         parent::init();
-
-        if (array_key_exists('inline', $this->editorOptions)) {
-            $this->_inline = $this->editorOptions['inline'];
-            unset($this->editorOptions['inline']);
-        }
 
         if (array_key_exists('preset', $this->editorOptions)) {
             if ($this->editorOptions['preset'] == 'basic') {
@@ -39,12 +33,6 @@ class CKEditor extends InputWidget
 
             unset($this->editorOptions['preset']);
         }
-
-        if ($this->_inline && !isset($this->editorOptions['height']))
-            $this->editorOptions['height'] = 100;
-
-        if ($this->_inline && !isset($this->containerOptions['id']))
-            $this->containerOptions['id'] = $this->id.'_inline';
     }
 
     public function run()
@@ -65,36 +53,18 @@ class CKEditor extends InputWidget
             'webschool.ckEditor.registerOnChange('.Json::encode($this->options['id']).');'
         ];
 
-        $this->editorOptions['filebrowserUploadUrl'] = '/uploads';
-        $this->editorOptions['filebrowserBrowseUrl'] = 'ckeditor/plugins/ckfinder/ckfinder.html';
-
-
         if (isset($this->editorOptions['filebrowserUploadUrl']))
             $js[] = "webschool.ckEditor.registerCsrf();";
 
         if (!isset($this->editorOptions['on']['instanceReady']))
             $this->editorOptions['on']['instanceReady'] = new JsExpression("function( ev ){".implode(' ', $js)."}");
 
-        if ($this->_inline) {
-            $JavaScript = "CKEDITOR.inline(";
-            $JavaScript .= Json::encode($this->options['id']);
-            $JavaScript .= empty($this->editorOptions) ? '' : ', '.Json::encode($this->editorOptions);
-            $JavaScript .= ");";
+        $JavaScript = "CKEDITOR.replace(";
+        $JavaScript .= Json::encode($this->options['id']);
+        $JavaScript .= empty($this->editorOptions) ? '' : ', '.Json::encode($this->editorOptions);
+        $JavaScript .= ");";
 
-            $this->getView()->registerJs($JavaScript, View::POS_END);
-            $this->getView()->registerCss('#'.$this->containerOptions['id'].', #'.$this->containerOptions['id'].' .cke_textarea_inline{height: '.$this->editorOptions['height'].'px;}');
-        } else {
-            // для предотвращения ошибки в console.log
-            // to prevent an error in the console.log
-            $this->editorOptions['cloudServices_tokenUrl'] = 'https://raw.githubusercontent.com/WebSchool/yii2-ckeditor/master/token';
-
-            $JavaScript = "CKEDITOR.replace(";
-            $JavaScript .= Json::encode($this->options['id']);
-            $JavaScript .= empty($this->editorOptions) ? '' : ', '.Json::encode($this->editorOptions);
-            $JavaScript .= ");";
-
-            $this->getView()->registerJs($JavaScript, View::POS_END);
-        }
+        $this->getView()->registerJs($JavaScript, View::POS_END);
     }
 
     private function presetBasic()
@@ -118,34 +88,30 @@ class CKEditor extends InputWidget
 
     private function presetStandard()
     {
-        $options['height'] = 300;
+        $options['height'] = 400;
+        $options['width'] = 'auto';
+        $options['autoParagraph'] = false;
+        $options['allowedContent'] = true; // чтобы не заменял базовые теги на свои
 
-        $options['toolbarGroups'] = [
-            ['name' => 'clipboard', 'groups' => ['mode','undo', 'selection', 'clipboard','doctools']],
-            ['name' => 'editing', 'groups' => ['tools', 'about']],
+        $options['toolbar'] = [
+            ['name' => '1', 'items' => ['Preview','Source', '-', 'NewPage', 'Print', '-', 'Templates']],
+            ['name' => '2', 'items'=> ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']],
+            ['name' => '3', 'items' => ['Find', 'Replace', '-', 'SelectAll']],
             '/',
-            ['name' => 'paragraph', 'groups' => ['templates', 'list', 'indent', 'align']],
-            ['name' => 'insert'],
-            '/',
-            ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
-            ['name' => 'colors'],
-            ['name' => 'links'],
-            ['name' => 'others'],
+            ['name' => '5', 'items' => ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat']],
+            ['name' => '6', 'items' => ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']],
+            ['name' => '7', 'items' => ['Link', 'Unlink', 'Anchor']],
+            ['name' => '8', 'items' => ['Image', 'Flash', 'Table']],
+            ['name' => '9', 'items' => ['Format']],
+            ['name' => '10', 'items' => ['Maximize', 'ShowBlocks']],
         ];
-
-        $options['removeButtons'] = 'Smiley,Iframe';
-
-        if ($this->_inline) {
-            $options['extraPlugins'] = 'SourceDialog';
-            $options['removePlugins'] = 'sourcearea';
-        }
 
         $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
     }
 
     private function presetFull()
     {
-        $options['height'] = 400;
+        $options['height'] = 500;
 
         $options['toolbarGroups'] = [
             ['name' => 'clipboard', 'groups' => ['mode','undo', 'selection', 'clipboard', 'doctools']],
@@ -161,11 +127,6 @@ class CKEditor extends InputWidget
             ['name' => 'links', 'groups' => ['links', 'insert']],
             ['name' => 'others'],
         ];
-
-        if ($this->_inline) {
-            $options['extraPlugins'] = 'SourceDialog';
-            $options['removePlugins'] = 'sourcearea';
-        }
 
         $this->editorOptions = ArrayHelper::merge($options, $this->editorOptions);
     }
