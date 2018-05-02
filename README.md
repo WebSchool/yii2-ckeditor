@@ -1,4 +1,4 @@
-CKEditor Расширение для Yii 2
+CKEditor Extension for Yii 2
 ===========================
 
 CKEditor — a free WYSIWYG editor that can be used on web pages.
