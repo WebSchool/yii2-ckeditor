@@ -30,7 +30,7 @@ use yii\helpers\Html;
 
 CKEditor::widget([
     'editorOptions' => [
-        'preset' => 'full', // basic, standard, fullиспользовать
+        'preset' => 'full', // basic, standard, full
     ]
 ]);
 
