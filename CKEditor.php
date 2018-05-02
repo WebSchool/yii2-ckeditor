@@ -37,7 +37,7 @@ class CKEditor extends InputWidget
 
     public function run()
     {
-        Assets::register($this->getView());
+        $asset = Assets::register($this->getView());
 
         echo Html::beginTag('div', $this->containerOptions);
 
@@ -53,13 +53,15 @@ class CKEditor extends InputWidget
             'webschool.ckEditor.registerOnChange('.Json::encode($this->options['id']).');'
         ];
 
-        if (isset($this->editorOptions['filebrowserUploadUrl']))
+        $this->editorOptions['filebrowserBrowseUrl'] = $asset->baseUrl . '/editor/plugins/ckfinder/ckfinder.html';
+
+        if (isset($this->editorOptions['filebrowserBrowseUrl']))
             $js[] = "webschool.ckEditor.registerCsrf();";
 
         if (!isset($this->editorOptions['on']['instanceReady']))
             $this->editorOptions['on']['instanceReady'] = new JsExpression("function( ev ){".implode(' ', $js)."}");
 
-        $JavaScript = "CKEDITOR.replace(";
+        $JavaScript = "var editor = CKEDITOR.replace(";
         $JavaScript .= Json::encode($this->options['id']);
         $JavaScript .= empty($this->editorOptions) ? '' : ', '.Json::encode($this->editorOptions);
         $JavaScript .= ");";

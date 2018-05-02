@@ -1,5 +1,10 @@
 <?php
 
+// пытаемся подключить локальный файл настроек
+$localConfig = $_SERVER['DOCUMENT_ROOT'] . '/../config/ckfinder/config.php';
+if (file_exists($localConfig))
+    return require_once ($localConfig);
+
 /*
  * CKFinder Configuration File
  *
@@ -26,7 +31,7 @@ $config = array();
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_authentication
 
 $config['authentication'] = function () {
-    return true;
+    return false;
 };
 
 /*============================ License Key ============================================*/
