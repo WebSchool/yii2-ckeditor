@@ -1,6 +1,6 @@
 <?php
 
-// пытаемся подключить локальный файл настроек
+// trying to connect a local configuration file
 $localConfig = $_SERVER['DOCUMENT_ROOT'] . '/../config/ckfinder/config.php';
 if (file_exists($localConfig))
     return require_once ($localConfig);
