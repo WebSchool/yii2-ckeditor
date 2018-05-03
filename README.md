@@ -17,7 +17,7 @@ composer require webschool/yii2-ckeditor
 or add
 
 ```json
-"webschool/yii2-ckeditor": "^1.0"
+"webschool/yii2-ckeditor": "^1.*"
 ```
 
 in the `require` section of your composer.json file.
@@ -45,8 +45,9 @@ echo $form->field($model, 'content')->widget(CKEditor::className(),[
 
 ## Configuring CkFinder
 
-In order to use your settings, copy the file "vendor/webschool/yii2-ckeditor/editor/plugins/ckfinder/config.php" to "backend/config/ckfinder/config.php".
+If you are using the yii2 advanced package: 
 
+In order to use your settings, copy the file "vendor/webschool/yii2-ckeditor/editor/plugins/ckfinder/config.php" to "backend/config/ckfinder/config.php".
 In "backend/config/ckfinder/config.php", remove all references to the variable "localConfig".
 
 ## Useful links
